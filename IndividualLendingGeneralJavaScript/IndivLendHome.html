@@ -728,6 +728,7 @@ $(document).ready(function() {
 </div>
 {{/if}}
 
+<!--
 <p><b>{{=$ctx.doI18N("heading.client.account.depositaccount.overview")}}</b></p>
 {{#if $ctx.numberGreaterThanZero(pendingApprovalDespositAccountsCount)}}
 <div class="row">
@@ -750,7 +751,7 @@ $(document).ready(function() {
 	</span>
 </div>
 {{/if}}
-
+-->
 {{#else}}
 <div>
 	{{=$ctx.doI18N("label.client.account.no.loans.exist")}}</div>
@@ -762,7 +763,9 @@ $(document).ready(function() {
     <button id="deleteclientbtn{{=id}}" class="deleteclientbtn">Delete client</button>
 	<button id="editclientbtn{{=id}}" class="editclientbtn">Edit client</button>
 	<button id="newloanbtn{{=id}}" class="newloanbtn">New loan application</button>
+    <!--
 	<button id="newdepositbtn{{=id}}" class="newdepositbtn">New Deposit application</button>
+    -->
 	<button id="addnotebtn{{=id}}" class="addnotebtn">Add note</button>
 </span>
 <hr/>
@@ -1444,6 +1447,10 @@ $(document).ready(function() {
 		</tr>
 		</table>
 	</fieldset>
+</form>
+</script>
+
+<!-- from loanproductFormTemplate
 	<fieldset>
 		<legend>{{=$ctx.doI18N("form.legend.loan.product.charges")}}</legend>
 		<table>
@@ -1473,9 +1480,7 @@ $(document).ready(function() {
 			</tr>
 		</table>	
 	</fieldset>
-</form>
-</script>
-
+-->
 
 
 <script id="loanproductListTemplate" type="text/x-jquery-tmpl">
