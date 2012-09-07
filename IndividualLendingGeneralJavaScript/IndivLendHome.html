@@ -790,6 +790,15 @@ $(document).ready(function() {
 </form>
 </script>
 
+<script id="fileFormTemplate" type="text/x-jquery-tmpl">
+<form id="entityform">
+    <div id="formerrors"></div>
+
+	<label for="file">{{=$ctx.doI18N("dialog.notes.form.label.note")}}</label>
+	<input type="file" id="file" name="file" cssClass="text ui-widget-content ui-corner-all"></input>
+</form>
+</script>
+
 <script id="clientSearchTabTemplate" type="text/x-jquery-tmpl">
 <div>	
 	<form method="post" id="viewClient" name="viewClient" action="switchToClient">
@@ -1024,6 +1033,7 @@ $(document).ready(function() {
 	<button id="newloanbtn{{=id}}" class="newloanbtn">New loan application</button>
 	<button id="newdepositbtn{{=id}}" class="newdepositbtn">New Deposit application</button>
 	<button id="addnotebtn{{=id}}" class="addnotebtn">Add note</button>
+	<button id="addfilebtn{{=id}}" class="addfilebtn">Add file</button>
 </span>
 <hr/>
 

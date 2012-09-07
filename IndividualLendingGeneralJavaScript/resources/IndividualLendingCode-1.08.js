@@ -584,6 +584,24 @@ function showILClient(clientId) {
 					});
 					$('button.addnotebtn span').text(doI18N('dialog.button.add.note'));
 
+					$('.addfilebtn').button().click(function(e) {
+						var linkId = this.id;
+						var clientId = linkId.replace("addfilebtn", "");
+						var postUrl = 'file/343443434/' + clientId;
+						var templateSelector = "#fileFormTemplate";
+						var width = 600; 
+						var height = 400;
+						
+						var saveSuccessFunction = function(data, textStatus, jqXHR) {
+						  	$("#dialog-form").dialog("close");
+						  	refreshNoteWidget('clients/' + clientId);
+						}
+						
+						popupDialogWithFormView("", postUrl, 'POST', "dialog.title.add.file", templateSelector, width, height,  saveSuccessFunction);
+					    e.preventDefault();
+					});
+					$('button.addfilebtn span').text(doI18N('dialog.button.add.file'));
+
 					refreshNoteWidget(clientUrl);
 					
 					// retrieve additional info
