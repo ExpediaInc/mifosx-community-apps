@@ -89,12 +89,16 @@ formErrorFunction = function(jqXHR, textStatus, errorThrown) {
 
 
 
-function executeAjaxRequest(url, verbType, jsonData, successFunction, errorFunction) { 
+function executeAjaxRequest(url, verbType, jsonData, successFunction, errorFunction, contentType) { 
+	var cType = "application/json; charset=utf-8";
+	console.log('contentType is: ' + contentType);
+	if (contentType == "multipart") { cType = "multipart/form-data; charset=utf-8" };
+	console.log('cType is: ' + cType);
 
 	var jqxhr = $.ajax({ 
 				url : baseApiUrl + url, 
 				type : verbType, //POST, GET, PUT or DELETE 
-				contentType : "application/json; charset=utf-8", 
+				contentType : cType, 
 				dataType : 'json', 
 				data : jsonData, 
 				cache : false, 
@@ -103,7 +107,8 @@ function executeAjaxRequest(url, verbType, jsonData, successFunction, errorFunct
 						if (base64 > "") xhr.setRequestHeader("Authorization", "Basic " + base64); 
 					}, 
 				success : successFunction, 
-				error : errorFunction 
+				error : errorFunction,
+        processData: false
 			}); 
 }
 
@@ -597,7 +602,7 @@ function showILClient(clientId) {
 						  	refreshNoteWidget('clients/' + clientId);
 						}
 						
-						popupDialogWithFormView("", postUrl, 'POST', "dialog.title.add.file", templateSelector, width, height,  saveSuccessFunction);
+						popupDialogWithFormView("", postUrl, 'POST', "dialog.title.add.file", templateSelector, width, height,  saveSuccessFunction, "multipart");
 					    e.preventDefault();
 					});
 					$('button.addfilebtn span').text(doI18N('dialog.button.add.file'));
@@ -1710,18 +1715,18 @@ function resetBasicAuthKey()
 
 
 //Popups used for saving data and confirmation	
-function popupDialogWithFormView(getUrl, postUrl, submitType, titleCode, templateSelector, width, height, saveSuccessFunction) {
+function popupDialogWithFormView(getUrl, postUrl, submitType, titleCode, templateSelector, width, height, saveSuccessFunction, cType) {
 
 		var successFunction = function(data, textStatus, jqXHR) {
 				//console.log(data);
 				popupDialogWithFormViewData(data, postUrl, submitType, titleCode, templateSelector, width, height, saveSuccessFunction);
 		  	};
 		
-		if (getUrl == "") popupDialogWithFormViewData("", postUrl, submitType, titleCode, templateSelector, width, height, saveSuccessFunction)
+		if (getUrl == "") popupDialogWithFormViewData("", postUrl, submitType, titleCode, templateSelector, width, height, saveSuccessFunction, cType)
 		else executeAjaxRequest(getUrl, "GET", "", successFunction, formErrorFunction);
 
 }
-function popupDialogWithFormViewData(data, postUrl, submitType, titleCode, templateSelector, width, height, saveSuccessFunction)  {
+function popupDialogWithFormViewData(data, postUrl, submitType, titleCode, templateSelector, width, height, saveSuccessFunction, cType)  {
 				var dialogDiv = $("<div id='dialog-form'></div>");
 				var formHtml = $(templateSelector).render(data);
 				dialogDiv.append(formHtml);
@@ -1788,8 +1793,12 @@ function popupDialogWithFormViewData(data, postUrl, submitType, titleCode, templ
 						serializedArray["charges"] = new Array();
 					}
 					
+
 			    	var newFormData = JSON.stringify(serializedArray);
-					executeAjaxRequest(postUrl, submitType, newFormData, saveSuccessFunction, formErrorFunction);
+			    	if (cType == "multipart") newFormData = new FormData($('#entityform')[0]);
+			    	console.log($(newFormData)[0]);
+			    	console.log($('#entityform')[0]);
+					executeAjaxRequest(postUrl, submitType, newFormData, saveSuccessFunction, formErrorFunction, cType);
 				};
 				
 				buttonsOpts[cancelButton] = function() {$(this).dialog( "close" );};

@@ -791,11 +791,11 @@ $(document).ready(function() {
 </script>
 
 <script id="fileFormTemplate" type="text/x-jquery-tmpl">
-<form id="entityform">
-    <div id="formerrors"></div>
-
+<form id="entityform" encytype="multipart/form-data">
+  <div id="formerrors"></div>
 	<label for="file">{{=$ctx.doI18N("dialog.notes.form.label.note")}}</label>
 	<input type="file" id="file" name="file" cssClass="text ui-widget-content ui-corner-all"></input>
+
 </form>
 </script>
 
